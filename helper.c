@@ -95,6 +95,7 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
 // Blur image
 void blur(int height, int width, RGBTRIPLE image[height][width])
 {
+    // creating a temp array and copying image into it
     RGBTRIPLE copy[height][width];
     for(int i=0; i<height; i++)
     {
@@ -103,6 +104,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
      image[i][j]=copy[i][j];
     }
     }
+    //using for loops to select first element in copy array and initializing floats for new values of rgb and counter to check how may time change occured
     for(int i=0; i<height; i++)
     {
     for(int j=0;j<width;j++)
@@ -111,8 +113,10 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
         float averagered = 0;
         float averagegreen = 0 ;
         float averageblue = 0 ;
+        //now using for loops to go to the left of the chosen element and moving till the box on the immidiate right of it
   for(int x = -1; x<2; x++)
   {
+    // adding zero if we move out of the image
     if(j+x<0 && j+x > width)
     {
         averagered += 0;
@@ -121,8 +125,10 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
     }
     else
     {
+        //moving from the block on top of the chosen block till the one below it
        for(int k = -1; k<2; k++ )
     {
+        //checking if we have moved out of the image
         if (i+k<0 && i+k>height)
     {
             averagered += 0;
@@ -132,7 +138,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
 
         else
         {
-
+//adding the values of rgb in each block and adding 1 to counter each time
             averagered += copy[i+k][j+x].rgbtRed;
             averageblue += copy[i+k][j+x].rgbtBlue;
             averagegreen += copy[i+k][j+x].rgbtGreen;
@@ -141,6 +147,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
     }
     }
   }
+  //copying the average to the oringinal image
   image[i][j].rgbtRed = averagered/counter;
   image[i][j].rgbtGreen = averagegreen/counter;
   image[i][j].rgbtBlue =averageblue/counter;
